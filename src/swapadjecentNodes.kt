@@ -2,42 +2,65 @@
 
 data class MyNode(val data:Int, var nextNode:MyNode? = null)
 
-fun swapAdjacentNodes(head:MyNode?):List<Int>{
-    val result = mutableListOf<Int>()
-    if(head == null) return result.toList()
+fun swapAdjacentNodes(head:MyNode?):MyNode?{
+    var newHead:MyNode? = null
+    var curNode:MyNode? = null
+    if(head == null) return null
     var tempNode = head
     var canSwap = true
     var previous:MyNode?
     while(tempNode?.nextNode != null){
         previous = tempNode
         tempNode = tempNode.nextNode
-        if(canSwap){
-            tempNode?.data?.let{
-                result.add(it)
-            }
-            previous.data.let{
-                result.add( it)
+        if(canSwap) {
+            previous.nextNode = null
+            val item = tempNode?.data ?: 0
+            val interNode = MyNode(item, previous)
+            if (newHead == null) {
+                newHead = interNode
+                curNode = previous
+            } else {
+                curNode?.nextNode = interNode
+                curNode = previous.nextNode
             }
         }
         canSwap = !canSwap
 
     }
-    return result.toList()
+    return newHead
 }
 
 fun main() {
-
-    var testData1 =  MyNode(0,null)
-    var testData5 = MyNode(5,null)
-    var testData4 = MyNode(4,testData5)
-    var testData3 = MyNode(3,testData4)
-    var testData2 = MyNode(1,testData3)
+    val testData1 =  MyNode(0,null)
+    val testData5 = MyNode(5,null)
+    val testData4 = MyNode(4,testData5)
+    val testData3 = MyNode(3,testData4)
+    val testData2 = MyNode(1,testData3)
     testData1.nextNode = testData2
-    val test1 =  swapAdjacentNodes(null)
-    val test2 = swapAdjacentNodes(testData1)
-    val test3 = swapAdjacentNodes(MyNode(6,null))
+    var test1 =  swapAdjacentNodes(null)
+    var test2 = swapAdjacentNodes(testData1)
+    var test3 = swapAdjacentNodes(MyNode(6,null))
+    val list = mutableListOf<Int>()
 
-    println("printing test 1 ${test1}")
-    println("printing test 2 ${test2}")
-    println("printing test 3  ${test3}")
+    println("printing test 1 ")
+    while(test1 != null){
+        list.add(test1.data)
+        test1 = test1.nextNode
+    }
+    println(list)
+    list.clear()
+    println("printing test 2 ")
+    while(test2 != null){
+       list.add(test2.data)
+        test2 = test2.nextNode
+    }
+    println(list)
+    list.clear()
+    println("printing test 3  ")
+    while(test3 != null){
+        list.add(test3.data)
+        test3 = test3.nextNode
+    }
+    println(list)
+    list.clear()
 }
