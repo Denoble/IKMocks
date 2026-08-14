@@ -1,5 +1,3 @@
-package com.sonocore
-
 data class MyNode(val data: Int, var nextNode: MyNode? = null)
 
 fun swapAdjacentNodes(head: MyNode?): MyNode? {
